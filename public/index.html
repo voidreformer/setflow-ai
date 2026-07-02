@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Appointment Setter Dashboard & Widget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Email Capture Modal -->
+  <div id="capture-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h2>Welcome to SetFlow.ai</h2>
+      <p>Enter your details to start chatting with our AI assistant.</p>
+      <div class="form-group">
+        <label for="capture-name">Your Name</label>
+        <input type="text" id="capture-name" placeholder="Jane Smith">
+      </div>
+      <div class="form-group">
+        <label for="capture-email">Email Address</label>
+        <input type="email" id="capture-email" placeholder="jane@company.com">
+      </div>
+      <p id="capture-error" class="error-msg" style="display:none"></p>
+      <button class="btn primary" id="capture-submit">Start Chatting</button>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">🟢</span>
+        <h2>SetFlow.ai</h2>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" data-view="dashboard" class="active"><span class="icon">📊</span> Dashboard</a>
+        <a href="#" data-view="leads"><span class="icon">👥</span> Leads</a>
+        <a href="#" data-view="calendar"><span class="icon">📅</span> Calendar / Webhooks</a>
+        <a href="#" data-view="ai-config"><span class="icon">🤖</span> AI Agent Config</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">U</div>
+          <div class="user-info">
+            <h4>Solo Builder</h4>
+            <p>Admin Mode</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- ===== VIEW: DASHBOARD ===== -->
+      <section id="view-dashboard" class="view active-view">
+        <header class="header">
+          <div class="header-title">
+            <h1>AI Appointment Setter</h1>
+            <p>Automate your client acquisition and book meetings on autopilot.</p>
+          </div>
+          <div class="header-actions">
+            <div class="status-badge live">Agent Online</div>
+          </div>
+        </header>
+
+        <div class="dashboard-grid">
+          <section class="card chat-sandbox">
+            <div class="card-header">
+              <h3>Live Agent Sandbox</h3>
+              <span id="chat-lead-name" class="chat-lead-name"></span>
+            </div>
+            <div class="chat-container">
+              <div class="chat-messages" id="chat-messages">
+                <div class="message system">
+                  System: AI Agent connected. Start chatting to test the appointment booking flow.
+                </div>
+              </div>
+              <div class="chat-input-wrapper">
+                <input type="text" id="chat-input" placeholder="Type a response to the setter agent..." autocomplete="off">
+                <button id="send-btn" class="btn primary">Send</button>
+              </div>
+            </div>
+          </section>
+
+          <div class="side-panel">
+            <section class="card stats-card">
+              <h3>Quick Stats</h3>
+              <div class="stats-grid">
+                <div class="stat-box">
+                  <span class="stat-num" id="stat-leads">0</span>
+                  <span class="stat-lbl">Leads Captured</span>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-num" id="stat-meetings">0</span>
+                  <span class="stat-lbl">Bookings Confirmed</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="card bookings-card">
+              <h3>Recent Appointments</h3>
+              <ul class="bookings-list" id="bookings-list">
+              </ul>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: LEADS ===== -->
+      <section id="view-leads" class="view">
+        <header class="header">
+          <div class="header-title">
+            <h1>Leads</h1>
+            <p>All captured leads and their conversation history.</p>
+          </div>
+        </header>
+        <div class="card">
+          <div class="leads-toolbar">
+            <input type="text" id="leads-search" placeholder="Search by name or email...">
+            <div class="filter-pills">
+              <button class="pill active" data-filter="all">All</button>
+              <button class="pill" data-filter="unqualified">Unqualified</button>
+              <button class="pill" data-filter="qualified">Qualified</button>
+              <button class="pill" data-filter="booked">Booked</button>
+            </div>
+          </div>
+          <div id="leads-table-container"></div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: CALENDAR / WEBHOOKS ===== -->
+      <section id="view-calendar" class="view">
+        <header class="header">
+          <div class="header-title">
+            <h1>Calendar / Webhooks</h1>
+            <p>Configure Cal.com webhook integration to auto-confirm bookings.</p>
+          </div>
+        </header>
+
+        <div class="card">
+          <h3>Webhook Endpoint</h3>
+          <p class="text-muted">Point your Cal.com webhook to this URL:</p>
+          <div class="code-block" id="webhook-url-display"></div>
+          <div class="webhook-status">
+            <span>Last received:</span>
+            <span id="webhook-last-received">Never</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Recent Webhook Events</h3>
+            <button class="btn secondary" id="refresh-events">Refresh</button>
+          </div>
+          <div id="webhook-events-list"></div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: AI AGENT CONFIG ===== -->
+      <section id="view-ai-config" class="view">
+        <header class="header">
+          <div class="header-title">
+            <h1>AI Agent Config</h1>
+            <p>Configure the AI persona, system prompt, and calendar integration.</p>
+          </div>
+        </header>
+
+        <div class="card">
+          <h3>AI Persona Settings</h3>
+          <form id="config-form">
+            <div class="form-group">
+              <label for="agent-prompt">Agent System Instructions</label>
+              <textarea id="agent-prompt" rows="8"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="calendar-link">Calendar Link (Cal.com / Calendly)</label>
+              <input type="text" id="calendar-link" value="">
+            </div>
+            <button type="submit" class="btn secondary">Update Settings</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
