@@ -6,6 +6,8 @@ SetFlow.ai is a fully functional, open-source AI-powered appointment setter that
 
 **This is not a demo. This is production-ready.**
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/voidreformer/setflow-ai)
+
 ---
 
 ## What It Does
@@ -37,7 +39,7 @@ SetFlow.ai is a fully functional, open-source AI-powered appointment setter that
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/YourUsername/setflow-ai.git
+git clone https://github.com/voidreformer/setflow-ai.git
 cd setflow-ai
 
 # 2. Install dependencies

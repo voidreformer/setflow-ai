@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeLink) activeLink.classList.add('active');
 
     if (viewId === 'leads') loadLeadsView();
+    if (viewId === 'history') loadHistoryView();
     if (viewId === 'calendar') loadCalendarView();
     if (viewId === 'dashboard') { loadStats(); loadBookings(); }
     if (viewId === 'ai-config') loadConfig();
@@ -244,6 +245,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const config = await res.json();
       agentPrompt.value = config.system_prompt || '';
       calendarLink.value = config.calendar_link || '';
+
+      const profileName = document.getElementById('profile-name');
+      const profileEmail = document.getElementById('profile-email');
+      if (profileName) profileName.value = config.admin_name || 'Solo Builder';
+      if (profileEmail) profileEmail.value = config.admin_email || 'admin@setflow.ai';
     } catch (err) {
       console.error('Failed to load config:', err);
     }
@@ -276,6 +282,44 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Failed to save settings. Is the server running?');
     }
   });
+
+  // ===== APPOINTMENT HISTORY VIEW =====
+  async function loadHistoryView() {
+    try {
+      const res = await fetch(`${API_BASE}/api/appointments/history`);
+      const historyData = await res.json();
+      renderHistoryTable(historyData);
+    } catch (err) {
+      console.error('Failed to load history:', err);
+    }
+  }
+
+  function renderHistoryTable(leads) {
+    const container = document.getElementById('history-table-container');
+
+    if (leads.length === 0) {
+      container.innerHTML = '<p class="empty-state">No appointment history found.</p>';
+      return;
+    }
+
+    const rows = leads.map(lead => `
+      <tr class="lead-row" data-lead-id="${lead.id}">
+        <td>${escapeHtml(lead.name || 'Anonymous')}</td>
+        <td>${escapeHtml(lead.email || '—')}</td>
+        <td><span class="status-pill ${lead.status}">${lead.status}</span></td>
+        <td>${new Date(lead.created_at).toLocaleString()}</td>
+      </tr>
+    `).join('');
+
+    container.innerHTML = `
+      <table class="leads-table">
+        <thead><tr>
+          <th>Name</th><th>Email</th><th>Status</th><th>Date</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  }
 
   // ===== LEADS VIEW =====
   let currentFilter = 'all';
@@ -310,6 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${new Date(lead.created_at).toLocaleDateString()}</td>
         <td>
           <button class="btn-icon expand-lead" data-lead-id="${lead.id}">View Chat</button>
+          ${lead.status === 'booked' ? `<button class="btn-icon mark-missed" data-lead-id="${lead.id}">Missed?</button>` : ''}
           <button class="btn-icon btn-danger delete-lead" data-lead-id="${lead.id}">Delete</button>
         </td>
       </tr>
@@ -331,6 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('leads-table-container').addEventListener('click', async (e) => {
     const expandBtn = e.target.closest('.expand-lead');
     const deleteBtn = e.target.closest('.delete-lead');
+    const missedBtn = e.target.closest('.mark-missed');
 
     if (expandBtn) {
       const id = expandBtn.dataset.leadId;
@@ -361,6 +407,27 @@ document.addEventListener('DOMContentLoaded', () => {
         loadLeadsView();
       } catch (err) {
         alert('Failed to delete lead.');
+      }
+    }
+
+    if (missedBtn) {
+      const id = missedBtn.dataset.leadId;
+      // Prompt the host (P2) to write a custom note to the lead (P1)
+      const customNote = prompt(
+        "This appointment was missed. Write a note to the lead (e.g., asking what they wanted to discuss and if they'd like to reschedule):\n\nLeave blank to use the automated default message."
+      );
+
+      if (customNote === null) return; // User cancelled
+
+      try {
+        await fetch(`${API_BASE}/api/leads/${id}/status`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'missed', custom_note: customNote })
+        });
+        loadLeadsView();
+      } catch (err) {
+        alert('Failed to update lead status.');
       }
     }
   });
@@ -424,6 +491,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('refresh-events').addEventListener('click', loadCalendarView);
+
+  // ===== PROFILE / EXPORT =====
+  const profileForm = document.getElementById('general-settings-form');
+  if (profileForm) {
+    profileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('profile-name').value;
+      const email = document.getElementById('profile-email').value;
+      try {
+        await fetch(`${API_BASE}/api/config`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ admin_name: name, admin_email: email })
+        });
+        alert('Profile Settings Saved!');
+      } catch (err) {
+        alert('Failed to save settings.');
+      }
+    });
+  }
+
+  const exportBtn = document.getElementById('export-appointments-btn');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      const statusText = document.getElementById('export-status');
+      statusText.textContent = 'Generating CSV...';
+
+      // Use standard browser download functionality
+      window.location.href = '/api/appointments/export';
+
+      setTimeout(() => {
+        statusText.textContent = 'Appointments exported successfully!';
+        setTimeout(() => statusText.textContent = '', 3000);
+      }, 1000);
+    });
+  }
 
   // ===== BOOT =====
   async function boot() {

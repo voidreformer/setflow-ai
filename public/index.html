@@ -39,8 +39,10 @@
       <nav class="nav-menu">
         <a href="#" data-view="dashboard" class="active"><span class="icon">📊</span> Dashboard</a>
         <a href="#" data-view="leads"><span class="icon">👥</span> Leads</a>
+        <a href="#" data-view="history"><span class="icon">📜</span> Appt. History</a>
         <a href="#" data-view="calendar"><span class="icon">📅</span> Calendar / Webhooks</a>
         <a href="#" data-view="ai-config"><span class="icon">🤖</span> AI Agent Config</a>
+        <a href="#" data-view="profile"><span class="icon">👤</span> Profile</a>
       </nav>
       <div class="sidebar-footer">
         <div class="user-profile">
@@ -133,6 +135,19 @@
         </div>
       </section>
 
+      <!-- ===== VIEW: HISTORY ===== -->
+      <section id="view-history" class="view">
+        <header class="header">
+          <div class="header-title">
+            <h1>Appointment History</h1>
+            <p>A full log of all booked and missed appointments.</p>
+          </div>
+        </header>
+        <div class="card">
+          <div id="history-table-container"></div>
+        </div>
+      </section>
+
       <!-- ===== VIEW: CALENDAR / WEBHOOKS ===== -->
       <section id="view-calendar" class="view">
         <header class="header">
@@ -183,6 +198,62 @@
             </div>
             <button type="submit" class="btn secondary">Update Settings</button>
           </form>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: PROFILE ===== -->
+      <section id="view-profile" class="view">
+        <header class="header">
+          <div class="header-title">
+            <h1>Profile & Settings</h1>
+            <p>Manage your account settings, privacy, and download your appointment records.</p>
+          </div>
+        </header>
+
+        <div class="dashboard-grid" style="grid-template-columns: 1fr; gap: 2rem;">
+          <!-- General Settings -->
+          <div class="card">
+            <h3>General Settings</h3>
+            <form id="general-settings-form">
+              <div class="form-group">
+                <label for="profile-name">Display Name</label>
+                <input type="text" id="profile-name" value="Solo Builder">
+              </div>
+              <div class="form-group">
+                <label for="profile-email">Admin Email</label>
+                <input type="email" id="profile-email" value="admin@setflow.ai">
+              </div>
+              <button type="submit" class="btn primary">Save Changes</button>
+            </form>
+          </div>
+
+          <!-- Privacy & Security -->
+          <div class="card">
+            <h3>Privacy & Security</h3>
+            <form id="security-settings-form">
+              <div class="form-group">
+                <label for="profile-password">New Password</label>
+                <input type="text" id="profile-password" placeholder="••••••••" style="text-security: disc; -webkit-text-security: disc;">
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" checked style="margin-right: 8px;">
+                  Enable Two-Factor Authentication (2FA)
+                </label>
+              </div>
+              <button type="button" class="btn secondary" onclick="alert('Security settings updated!')">Update Security</button>
+            </form>
+          </div>
+
+          <!-- Appointment Records -->
+          <div class="card">
+            <h3>Appointment Records</h3>
+            <p class="text-muted" style="margin-bottom: 1rem;">Export your completed and booked appointments to a local CSV file for your records.</p>
+            <div class="form-group">
+              <button class="btn primary" id="export-appointments-btn" style="width: fit-content;">Download Appointments (CSV)</button>
+              <p id="export-status" class="text-muted" style="margin-top: 0.5rem;"></p>
+            </div>
+          </div>
         </div>
       </section>
 

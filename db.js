@@ -23,6 +23,8 @@ const defaults = {
   system_prompt: defaultPrompt,
   calendar_link: 'https://calendly.com/apex-consulting/discovery',
   company_name: 'Apex Consulting',
+  admin_name: 'Solo Builder',
+  admin_email: 'admin@setflow.ai'
 };
 
 function saveDb() {
