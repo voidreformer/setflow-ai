@@ -79,7 +79,8 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
       messages,
     });
 
-    const reply = response.content[0].text;
+    const textBlock = response.content.find(block => block.type === 'text');
+    const reply = textBlock ? textBlock.text : '';
 
     db.addChatMessage(leadId, 'assistant', reply);
 
