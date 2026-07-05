@@ -1,5 +1,5 @@
 {
-  "name": "ai-appointment-setter",
+  "name": "setflow-ai",
   "version": "1.0.0",
   "description": "AI-powered appointment setter with Claude AI, SQLite, and Express",
   "main": "server.js",
