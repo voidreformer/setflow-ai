@@ -92,9 +92,13 @@ body {
   margin-bottom: 3rem;
 }
 
-.logo-icon {
-  font-size: 1.75rem;
-  filter: drop-shadow(0 0 8px var(--accent-glow));
+.logo-img {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  box-shadow: 0 0 10px var(--accent-glow);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo h2 {
@@ -897,6 +901,11 @@ textarea::placeholder {
   background: rgba(255,255,255,0.25);
 }
 
+/* Mobile Bottom Navigation Bar Styles */
+.mobile-nav {
+  display: none;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .app-container {
@@ -905,12 +914,63 @@ textarea::placeholder {
   .sidebar {
     display: none;
   }
+  
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 12, 18, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.65rem 0.5rem;
+    z-index: 999;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobile-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: var(--transition);
+    flex: 1;
+    text-align: center;
+  }
+
+  .mobile-nav a .icon {
+    font-size: 1.15rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .mobile-nav a .lbl {
+    letter-spacing: 0.2px;
+  }
+
+  .mobile-nav a.active {
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  .main-content {
+    padding-bottom: 6rem; /* Ensure content doesn't get covered by bottom nav */
+  }
 }
+
 @media (max-width: 768px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
   .main-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    padding-bottom: 6rem;
   }
 }

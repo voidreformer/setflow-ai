@@ -19,15 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== VIEW ROUTER =====
   const views = document.querySelectorAll('.view');
-  const navLinks = document.querySelectorAll('.nav-menu a[data-view]');
+  const navLinks = document.querySelectorAll('[data-view]');
 
   function showView(viewId) {
     views.forEach(v => v.classList.remove('active-view'));
     navLinks.forEach(a => a.classList.remove('active'));
+    
     const target = document.getElementById(`view-${viewId}`);
     if (target) target.classList.add('active-view');
-    const activeLink = document.querySelector(`[data-view="${viewId}"]`);
-    if (activeLink) activeLink.classList.add('active');
+    
+    const activeLinks = document.querySelectorAll(`[data-view="${viewId}"]`);
+    activeLinks.forEach(link => link.classList.add('active'));
 
     if (viewId === 'leads') loadLeadsView();
     if (viewId === 'history') loadHistoryView();

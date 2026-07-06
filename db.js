@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
-const DB_PATH = path.join(__dirname, 'appointment_setter.db');
+const DB_PATH = process.env.DATABASE_PATH || path.join(__dirname, 'appointment_setter.db');
 
 let db;
 

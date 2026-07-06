@@ -1,0 +1,15 @@
+services:
+  setflow-ai:
+    build: .
+    container_name: setflow-ai
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - DATABASE_PATH=/app/data/appointment_setter.db
+      - ANTHROPIC_API_KEY=your_anthropic_api_key_here
+      # - ANTHROPIC_BASE_URL=http://host.docker.internal:8080 # Un-comment to route through local proxy from docker container
