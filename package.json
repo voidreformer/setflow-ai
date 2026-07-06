@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "AI-powered appointment setter with Claude AI, SQLite, and Express",
   "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voidreformer/setflow-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/voidreformer/setflow-ai/issues"
+  },
+  "homepage": "https://github.com/voidreformer/setflow-ai#readme",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js"
