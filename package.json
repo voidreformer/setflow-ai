@@ -1,6 +1,9 @@
 {
-  "name": "setflow-ai",
+  "name": "@voidreformer/setflow-ai",
   "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "description": "AI-powered appointment setter with Claude AI, SQLite, and Express",
   "main": "server.js",
   "repository": {
