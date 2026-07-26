@@ -1,141 +1,34 @@
-# SetFlow.ai — Your AI Appointment Setter That Never Sleeps
+# 📅 SetFlow AI — Autonomous Appointment Setter & Qualification Engine
 
-> **Stop chasing leads. Let AI book your meetings on autopilot.**
+[![Live App](https://img.shields.io/badge/🌐_Live_App-setflow--ai.vercel.app-000000?style=for-the-badge&logo=vercel)](https://setflow-ai.vercel.app)
+![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)
+![AI Engine](https://img.shields.io/badge/AI%20Engine-NVIDIA%20Nemotron%203%20Ultra%20550B-76B900?style=for-the-badge&logo=nvidia)
+![Database](https://img.shields.io/badge/Database-SQLite%20WASM%20(sql.js)-003B57?style=for-the-badge&logo=sqlite)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
-SetFlow.ai is a fully functional, open-source AI-powered appointment setter that captures leads, handles objections, answers pricing questions, and books discovery calls — all without human intervention. Built with Node.js, Express, SQLite, and the Anthropic Claude API.
-
-**This is not a demo. This is production-ready.**
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/voidreformer/setflow-ai)
-
----
-
-## What It Does
-
-- **AI Chat Agent** — A smart conversational assistant that qualifies leads, answers questions about your services, handles objections, and guides visitors to book a call
-- **Lead Capture & Tracking** — Automatically captures visitor info, tracks status (unqualified → qualified → booked), and stores full chat history
-- **Auto-Booking Detection** — AI recognizes when a user agrees to book and triggers the booking flow automatically
-- **Webhook Integration** — Connects with Cal.com / Calendly to confirm bookings and match them to leads
-- **Dashboard** — Real-time stats, recent bookings, lead management with search & filters
-- **Configurable AI Persona** — Edit the system prompt, company name, and calendar link from the UI
+> 🚀 **Official Production Web App:** **[https://setflow-ai.vercel.app](https://setflow-ai.vercel.app)**
+>
+> **SetFlow AI** is a production-grade, autonomous sales appointment setter that qualifies leads, extracts budget & timeline requirements, and schedules calendar meetings in real-time.
 
 ---
 
-## Screenshots
+## 🌟 Key Features
 
-```
-┌─────────────────────────────────────────────────────┐
-│  🟢 SetFlow.ai                                      │
-│  ├── 📊 Dashboard (Live Chat + Stats + Bookings)     │
-│  ├── 👥 Leads (Table + Filters + Chat History)       │
-│  ├── 📅 Calendar / Webhooks (Cal.com Integration)    │
-│  └── 🤖 AI Agent Config (System Prompt Editor)       │
-└─────────────────────────────────────────────────────┘
-```
+- **💬 Real-Time Multi-Turn Conversational AI:** Conversational lead intake powered by NVIDIA Nemotron 3 Ultra 550B.
+- **🎯 Autonomous Lead Qualification:** Analyzes lead responses to calculate BANT qualification scores (Budget, Authority, Need, Timing).
+- **📅 Dynamic Slot Scheduling:** Real-time calendar availability check & instant appointment booking.
+- **🛡️ WASM SQLite Persistence & JWT Auth:** Embedded database (`appointment_setter.db`) storing leads, booked slots, and conversation transcripts.
+- **📑 Appointment Export:** 1-click CSV Export for CRM integration.
 
 ---
 
-## Quick Start
+## 🏬 Architecture & Stack
 
-```bash
-# 1. Clone the repo
-git clone https://github.com/voidreformer/setflow-ai.git
-cd setflow-ai
-
-# 2. Install dependencies
-npm install
-
-# 3. Set up your environment
-cp .env.example .env
-# Edit .env with your Anthropic API key
-
-# 4. Start the server
-npm start
-
-# 5. Open in browser
-# http://localhost:3000
-```
-
-### Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `ANTHROPIC_API_KEY` | Your Anthropic API key | — |
-| `ANTHROPIC_BASE_URL` | Custom API base URL (optional) | Anthropic default |
-| `CLAUDE_MODEL` | Claude model to use | `claude-sonnet-4-20250514` |
-| `PORT` | Server port | `3000` |
+- **Core:** Express.js REST API + WASM SQLite (`sql.js`)
+- **AI Engine:** NVIDIA Nemotron 3 Ultra 550B via OmniRoute Gateway
+- **Frontend:** Slate Dark Neumorphic Design System
 
 ---
 
-## Tech Stack
-
-- **Backend:** Node.js + Express
-- **Database:** SQLite (via sql.js — zero config, no external DB needed)
-- **AI:** Anthropic Claude API
-- **Frontend:** Vanilla HTML/CSS/JS — no framework bloat
-- **UI:** Glassmorphism design, HSL variables, responsive layout, smooth animations
-
----
-
-## Architecture
-
-```mermaid
-graph TD
-    Client[Web Widget / Frontend] -->|1. Chat Message| API[Backend: Express]
-    API -->|2. Fetch Lead & History| DB[(SQLite Database)]
-    API -->|3. System Prompt + Context| LLM[Claude API]
-    LLM -->|4. Reply + Action Tags| API
-    API -->|5. If ACTION_BOOK_MEETING| Cal[Cal.com / Calendly Webhook]
-    API -->|6. Response + Stats| Client
-```
-
----
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/chat` | Send a message, get AI response |
-| `POST` | `/api/leads` | Create a new lead |
-| `GET` | `/api/leads` | List all leads (optional `?status=` filter) |
-| `GET` | `/api/leads/:id` | Get a specific lead |
-| `GET` | `/api/leads/:id/history` | Get chat history for a lead |
-| `DELETE` | `/api/leads/:id` | Delete a lead |
-| `GET` | `/api/stats` | Dashboard statistics |
-| `GET` | `/api/bookings` | Recent confirmed bookings |
-| `GET` | `/api/config` | Get AI agent configuration |
-| `PUT` | `/api/config` | Update system prompt & calendar link |
-| `POST` | `/api/webhooks/calendar` | Receive Cal.com booking webhooks |
-| `GET` | `/api/webhooks/events` | List recent webhook events |
-
----
-
-## How the AI Books Meetings
-
-1. Visitor enters name & email → lead is created as `unqualified`
-2. AI chats naturally — answers questions, handles objections
-3. When visitor shows interest (mentions "schedule", "book", "meeting"), lead becomes `qualified`
-4. When AI determines user is ready, it includes `[ACTION_BOOK_MEETING]` in its response → lead becomes `booked`
-5. Cal.com webhook confirms the actual booking and matches it back to the lead
-
----
-
-## Free & Open Source
-
-This is a **free sample** — use it, fork it, deploy it, make money with it. If demand is strong, premium features and hosted plans are coming.
-
----
-
-## Special Thanks
-
-**Massive shoutout to [Vaibhav Sisinty](https://github.com/vaibhavsisinty)** for the inspiration, guidance, and pushing the boundaries of what AI-powered tools can do. This project wouldn't exist without his vision.
-
----
-
-## License
-
-MIT — do whatever you want with it.
-
----
-
-**Built with caffeine, Claude, and the belief that no lead should go unfollowed.**
+## 📄 License
+Distributed under the MIT License. Built with ❤️ for real-world problem solving.

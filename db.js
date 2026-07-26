@@ -43,6 +43,16 @@ async function initDb() {
   }
 
   db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  db.run(`
     CREATE TABLE IF NOT EXISTS leads (
       id TEXT PRIMARY KEY,
       name TEXT,
@@ -204,4 +214,22 @@ module.exports = {
     const row = getOne('SELECT received_at FROM webhook_events ORDER BY received_at DESC LIMIT 1');
     return row ? row.received_at : null;
   },
+
+  createUser(name, email, passwordHash) {
+    const id = uuidv4();
+    db.run(
+      'INSERT INTO users (id, name, email, password_hash) VALUES (?, ?, ?, ?)',
+      [id, name, email.toLowerCase(), passwordHash]
+    );
+    saveDb();
+    return { id, name, email: email.toLowerCase() };
+  },
+
+  findUserByEmail(email) {
+    return getOne('SELECT * FROM users WHERE email = ?', [email.toLowerCase()]);
+  },
+
+  findUserById(id) {
+    return getOne('SELECT id, name, email, created_at FROM users WHERE id = ?', [id]);
+  }
 };
