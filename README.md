@@ -1,12 +1,12 @@
 # 📅 SetFlow AI — Autonomous Appointment Setter & Qualification Engine
 
-[![Live App](https://img.shields.io/badge/🌐_Live_App-setflow--ai.vercel.app-000000?style=for-the-badge&logo=vercel)](https://setflow-ai.vercel.app)
+[![Live App](https://img.shields.io/badge/🌐_Live_App-01aiappointmentsetter.vercel.app-000000?style=for-the-badge&logo=vercel)](https://01aiappointmentsetter.vercel.app)
 ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)
 ![AI Engine](https://img.shields.io/badge/AI%20Engine-NVIDIA%20Nemotron%203%20Ultra%20550B-76B900?style=for-the-badge&logo=nvidia)
 ![Database](https://img.shields.io/badge/Database-SQLite%20WASM%20(sql.js)-003B57?style=for-the-badge&logo=sqlite)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
-> 🚀 **Official Production Web App:** **[https://setflow-ai.vercel.app](https://setflow-ai.vercel.app)**
+> 🚀 **Official Production Web App:** **[https://01aiappointmentsetter.vercel.app](https://01aiappointmentsetter.vercel.app)**
 >
 > **SetFlow AI** is a production-grade, autonomous sales appointment setter that qualifies leads, extracts budget & timeline requirements, and schedules calendar meetings in real-time.
 
