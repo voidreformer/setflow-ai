@@ -974,3 +974,50 @@ textarea::placeholder {
     padding-bottom: 6rem;
   }
 }
+
+/* Ultra Small Mobile Devices (< 480px) */
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+  }
+
+  .table-responsive, .card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chat-box {
+    height: 380px;
+  }
+
+  .mobile-nav a {
+    padding: 0.2rem 0;
+  }
+
+  .mobile-nav a .icon {
+    font-size: 1.25rem;
+  }
+
+  .mobile-nav a .lbl {
+    font-size: 0.65rem;
+  }
+}
