@@ -5,12 +5,12 @@
   --palette-magenta: #EE29FF;  /* Neon Magenta / Pink (RGB 238, 41, 255) */
   --palette-purple: #7A49FF;   /* Electric Purple / Violet (RGB 122, 73, 255) */
 
-  /* Cyber Violet Glassmorphism Base */
+  /* Cyber Violet Glassmorphism Base for Full Gradient Background */
   --bg-color: #0B0719;
-  --glass-bg: rgba(22, 15, 51, 0.65);
-  --glass-border: rgba(122, 73, 255, 0.3);
-  --glass-highlight: rgba(238, 41, 255, 0.2);
-  --glass-blur: 16px;
+  --glass-bg: rgba(11, 7, 25, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-highlight: rgba(238, 41, 255, 0.25);
+  --glass-blur: 20px;
 
   --text-main: #FFFFFF;
   --text-muted: #E2E8F0;
@@ -38,15 +38,9 @@
 }
 
 body {
-  background-color: var(--bg-color);
-  /* Animated Neon Ambient Gradient Background using User 3 Palette Colors */
-  background:
-    radial-gradient(circle at 15% 25%, rgba(227, 255, 40, 0.15), transparent 45%),
-    radial-gradient(circle at 85% 30%, rgba(238, 41, 255, 0.18), transparent 45%),
-    radial-gradient(circle at 50% 80%, rgba(122, 73, 255, 0.2), transparent 50%),
-    var(--bg-color);
-  background-size: 200% 200%;
-  animation: gradientShift 20s ease infinite;
+  /* Full Background Linear & Mesh Gradient of User's 3 Palette Colors (#E3FF28, #EE29FF, #7A49FF) */
+  background: linear-gradient(135deg, #E3FF28 0%, #EE29FF 45%, #7A49FF 100%);
+  background-attachment: fixed;
 
   color: var(--text-main);
   font-family: var(--font-sans);
@@ -54,12 +48,6 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 /* App Layout Grid */
