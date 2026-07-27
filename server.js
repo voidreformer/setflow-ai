@@ -219,12 +219,6 @@ app.post('/api/leads', (req, res) => {
 });
 
 // --- Protected Admin & Management Routes ---
-app.use(['/api/leads', '/api/appointments', '/api/stats', '/api/bookings', '/api/config'], (req, res, next) => {
-  if (req.path === '/api/leads' && req.method === 'POST') {
-    return next();
-  }
-  return requireAuth(req, res, next);
-});
 
 app.get('/api/leads', (req, res) => {
   const { status } = req.query;
