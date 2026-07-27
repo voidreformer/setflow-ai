@@ -15,8 +15,22 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'setflow_ai_jwt_secret_2026';
 
-// Initialize Database on Startup
-db.initDb().catch(err => console.error('Database init error:', err));
+// Serve Static Assets from public/
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Safe Async DB Middleware for Serverless
+app.use(async (req, res, next) => {
+  try {
+    await db.initDb();
+  } catch (err) {
+    console.error('[Server] DB init warning:', err.message);
+  }
+  next();
+});
 
 // Security: Helmet adds secure HTTP headers
 app.use(helmet({
