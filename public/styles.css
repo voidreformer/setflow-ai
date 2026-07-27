@@ -1,22 +1,27 @@
-/* Modern Reset & Base Variables */
+/* STRICT HARDCORE CUSTOM USER COLOR PALETTE FOR SETFLOW AI */
 :root {
-  /* Glassmorphism Variables */
-  --bg-color: #0b0d12;
-  --glass-bg: rgba(20, 25, 35, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-highlight: rgba(255, 255, 255, 0.15);
+  /* Exact 3 User Palette Hex Tokens */
+  --palette-lime: #E3FF28;     /* Electric Lime / Yellow (RGB 227, 255, 40) */
+  --palette-magenta: #EE29FF;  /* Neon Magenta / Pink (RGB 238, 41, 255) */
+  --palette-purple: #7A49FF;   /* Electric Purple / Violet (RGB 122, 73, 255) */
+
+  /* Cyber Violet Glassmorphism Base */
+  --bg-color: #0B0719;
+  --glass-bg: rgba(22, 15, 51, 0.65);
+  --glass-border: rgba(122, 73, 255, 0.3);
+  --glass-highlight: rgba(238, 41, 255, 0.2);
   --glass-blur: 16px;
 
-  --text-main: hsl(210, 40%, 98%);
-  --text-muted: hsl(215, 20%, 70%);
+  --text-main: #FFFFFF;
+  --text-muted: #E2E8F0;
 
-  /* Primary Accent: Electric Cyan/Teal */
-  --accent: hsl(180, 100%, 50%);
-  --accent-glow: hsla(180, 100%, 50%, 0.2);
-  --accent-hover: hsl(180, 100%, 65%);
+  /* Primary Accent: Electric Lime (#E3FF28) */
+  --accent: #E3FF28;
+  --accent-glow: rgba(227, 255, 40, 0.35);
+  --accent-hover: #EE29FF;
 
-  /* Secondary Accent: Purple for gradients */
-  --accent-sec: hsl(270, 80%, 60%);
+  /* Secondary Accent: Neon Magenta & Purple */
+  --accent-sec: #7A49FF;
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -34,11 +39,11 @@
 
 body {
   background-color: var(--bg-color);
-  /* Animated Gradient Background */
+  /* Animated Neon Ambient Gradient Background using User 3 Palette Colors */
   background:
-    radial-gradient(circle at 15% 50%, rgba(0, 255, 255, 0.04), transparent 50%),
-    radial-gradient(circle at 85% 30%, rgba(150, 50, 255, 0.05), transparent 50%),
-    radial-gradient(circle at 50% 80%, rgba(0, 255, 255, 0.03), transparent 50%),
+    radial-gradient(circle at 15% 25%, rgba(227, 255, 40, 0.15), transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(238, 41, 255, 0.18), transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(122, 73, 255, 0.2), transparent 50%),
     var(--bg-color);
   background-size: 200% 200%;
   animation: gradientShift 20s ease infinite;
@@ -376,11 +381,11 @@ body {
 }
 
 .user .message-content {
-  background: linear-gradient(135deg, var(--accent), hsl(190, 90%, 45%));
-  color: #000;
-  font-weight: 500;
+  background: linear-gradient(135deg, #E3FF28 0%, #EE29FF 100%);
+  color: #0B0719;
+  font-weight: 800;
   border-bottom-right-radius: 4px;
-  box-shadow: 0 4px 15px var(--accent-glow);
+  box-shadow: 0 4px 15px rgba(227, 255, 40, 0.35);
 }
 
 .message-time {
@@ -420,20 +425,20 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: var(--palette-lime);
   background: rgba(10, 12, 18, 0.8);
-  box-shadow: 0 0 0 3px hsla(180, 100%, 50%, 0.15), inset 0 1px 3px rgba(0,0,0,0.5);
+  box-shadow: 0 0 0 3px rgba(227, 255, 40, 0.25), inset 0 1px 3px rgba(0,0,0,0.5);
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.4);
 }
 
 /* Buttons */
 .btn {
   font-family: var(--font-sans);
-  font-weight: 600;
+  font-weight: 800;
   font-size: 0.95rem;
   padding: 0.85rem 1.75rem;
   border-radius: var(--radius-md);
@@ -447,14 +452,14 @@ textarea::placeholder {
 }
 
 .btn.primary {
-  background: linear-gradient(135deg, var(--accent), hsl(190, 90%, 45%));
-  color: #000;
-  box-shadow: 0 4px 15px var(--accent-glow);
+  background: linear-gradient(135deg, #E3FF28 0%, #EE29FF 100%);
+  color: #0B0719;
+  box-shadow: 0 4px 18px rgba(227, 255, 40, 0.35);
 }
 
 .btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px hsla(180, 100%, 50%, 0.3);
+  box-shadow: 0 8px 25px rgba(238, 41, 255, 0.45);
   filter: brightness(1.1);
 }
 
@@ -718,32 +723,36 @@ textarea::placeholder {
 }
 
 .status-pill.unqualified {
-  background: rgba(255,255,255,0.05);
-  color: var(--text-muted);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(122, 73, 255, 0.15);
+  color: #7A49FF;
+  border: 1px solid rgba(122, 73, 255, 0.35);
+  font-weight: 800;
 }
-.status-pill.unqualified::before { background: var(--text-muted); }
+.status-pill.unqualified::before { background: #7A49FF; box-shadow: 0 0 8px #7A49FF; }
 
 .status-pill.qualified {
-  background: hsla(45, 100%, 50%, 0.1);
-  color: hsl(45, 100%, 65%);
-  border: 1px solid hsla(45, 100%, 50%, 0.2);
+  background: rgba(238, 41, 255, 0.15);
+  color: #EE29FF;
+  border: 1px solid rgba(238, 41, 255, 0.35);
+  font-weight: 800;
 }
-.status-pill.qualified::before { background: hsl(45, 100%, 65%); box-shadow: 0 0 8px hsl(45, 100%, 65%); }
+.status-pill.qualified::before { background: #EE29FF; box-shadow: 0 0 8px #EE29FF; }
 
 .status-pill.booked {
-  background: var(--accent-glow);
-  color: var(--accent);
-  border: 1px solid hsla(180, 100%, 50%, 0.2);
+  background: rgba(227, 255, 40, 0.15);
+  color: #E3FF28;
+  border: 1px solid rgba(227, 255, 40, 0.35);
+  font-weight: 800;
 }
-.status-pill.booked::before { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.status-pill.booked::before { background: #E3FF28; box-shadow: 0 0 8px #E3FF28; }
 
 .status-pill.missed {
-  background: hsla(0, 90%, 65%, 0.1);
-  color: hsl(0, 90%, 75%);
-  border: 1px solid hsla(0, 90%, 65%, 0.25);
+  background: rgba(238, 41, 255, 0.1);
+  color: #EE29FF;
+  border: 1px solid rgba(238, 41, 255, 0.25);
+  font-weight: 800;
 }
-.status-pill.missed::before { background: hsl(0, 90%, 75%); box-shadow: 0 0 8px hsl(0, 90%, 75%); }
+.status-pill.missed::before { background: #EE29FF; box-shadow: 0 0 8px #EE29FF; }
 
 /* Chat History Panel */
 .chat-history-row.hidden {
